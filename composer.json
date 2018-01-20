@@ -1,0 +1,26 @@
+{
+    "name": "mohamed-amine/di-container",
+    "description": "PHP dependency injection container",
+    "license": "MIT",
+
+    "require": {
+        "php": ">=7.0"
+    },
+
+    "authors": [
+        {
+            "name": "Mohamed Amine",
+            "email": "MohamedAmine1c@gmail.com",
+            "homepage": "https://github.com/MohamedAmine1c",
+            "role": "owner"
+        }
+    ],
+    "minimum-stability": "dev",
+    "prefer-stable": true,
+
+    "autoload": {
+    "psr-4": {
+      "DI\\":"src/"
+    }
+  }
+}
