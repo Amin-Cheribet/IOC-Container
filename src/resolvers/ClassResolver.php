@@ -1,6 +1,6 @@
 <?php
 
-namespace DI;
+namespace DI\Resolvers;
 
 class ClassResolver
 {
@@ -13,6 +13,9 @@ class ClassResolver
 
     public function getConstructorParameters()
     {
+        if (!$this->reflector->hasMethod('__construct')) {
+            return [];
+        }
         $data = $this->reflector->getConstructor()->getParameters();
         foreach ($data as $argumentIndex => $arguments) {
             $parameters[] = $arguments->getClass();
@@ -21,9 +24,9 @@ class ClassResolver
         return $parameters;
     }
 
-    public function getMethodParameters()
+    public function getMethodParameters(\ReflectionClass $reflector, string $method)
     {
-        $data = $this->reflector->getConstructor()->getParameters();
+        $data = $reflector->getMethod($method)->getParameters();
         foreach ($data as $argumentIndex => $arguments) {
             $parameters[] = $arguments->getClass();
         }
@@ -36,16 +39,18 @@ class ClassResolver
         return $this->reflector->getName();
     }
 
-    public function classExisits(string $class)
+    public function getClassShortName()
     {
-        if (class_exists($class)) {
-            return true;
-        }
-        return false;
+        return $this->reflector->getShortName();
     }
 
-    public function createInstance(array $parameters)
+    public function classExists(string $class)
     {
-        return $reflector->newInstanceArgs($parameters);
+        return class_exists($class) ? true : false;
+    }
+
+    public function createClassInstance(array $parameters = null)
+    {
+        return $this->reflector->newInstanceArgs($parameters);
     }
 }
