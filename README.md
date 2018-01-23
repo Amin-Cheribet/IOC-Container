@@ -1,4 +1,7 @@
 
+# Features:
+- this container will resolve all of your dependencies and their dependencies and so on.
+
 # How to install:
 ```
 composer require mohamed-amine/di-container
