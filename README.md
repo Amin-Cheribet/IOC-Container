@@ -12,11 +12,16 @@ use DI\DI;
 
 $container = DI::container();
 
-$container->build('NameSpace\MyClass');
-// instead of new Myclass(new Class1(new SubClass(), new Class2();
+// instead of 
+$object = new Myclass(new Class1(new SubClass(), new Class2();
 
-$container->get('MyClass')->someMethod();
+// use this
+$container->build('NameSpace\MyClass');
+
+
 // call a method from MyClass object
+$container->get('MyClass')->someMethod();
+
 ```
 
 ## Use without auto-wiring:
