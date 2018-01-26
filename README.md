@@ -27,9 +27,9 @@ $container->get('MyClass')->someMethod();
 
 ```
 
-## Use without auto-wiring:
+## How to use arguments (without auto-wiring):
 
-to disable auto-wiring you need to put a second arguments with parameters inside an array
+you can add arguments inside an array as a second parameter:
 
 ```php
 $container->build('Namespace\MyClass', ['parameter1', 'parameter2']);
@@ -37,7 +37,8 @@ $container->build('Namespace\MyClass', ['parameter1', 'parameter2']);
 
 ## Use Service Provider:
 
-create a trait 'ServiceProvider.php' with the namespace App
+create a trait 'ServiceProvider.php' with the namespace ```App```
+NOTE: You must use the namespace ```App``` and a file with the name 'ServiceProvider.php' like this:
 ```php
 namespace App;
 
@@ -57,9 +58,10 @@ trait ServiceProvider
 ### after adding this ServiceProvider we will be able to use short-names:
 
 ```php
-$container->build('Router');
-
 // instead of :
-
 $container->build('Router\Router');
+
+// you can use this :
+$container->build('Router\Router');
+
 ```
