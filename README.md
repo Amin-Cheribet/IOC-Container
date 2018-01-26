@@ -62,6 +62,6 @@ trait ServiceProvider
 $container->build('Router\Router');
 
 // you can use this :
-$container->build('Router\Router');
+$container->build('Router');
 
 ```
