@@ -1,10 +1,10 @@
 <?php
 
-namespace DI;
+namespace IOC;
 
 use Exception;
 
-class DI
+class IOC
 {
     public $classes = [];
 
