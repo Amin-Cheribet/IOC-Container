@@ -1,28 +1,30 @@
 <?php
 
-namespace DI\Resolvers;
+namespace IOC\Resolvers;
 
 class ClassNameResolver implements ClassNameResolverInterface
 {
     use \App\ServiceProvider;
 
+    private $className;
+
     public function __construct(string $className)
     {
-        return $this->getRealClassName($className);
+        $this->className = $className;
     }
 
-    public function getRealClassName(string $className): string
+    public function getRealClassName(): string
     {
-        $realName = $this->resolveRealName($className);
+        $classFullName = $this->resolveClassFullName($this->className);
 
-        if (!class_exists($realName)) {
-            throw new \Exception("$className is not found", 1);
+        if (!class_exists($classFullName)) {
+            throw new \Exception("$className Resolved from $this->className is not found", 1);
         }
 
-        return $realName;
+        return $classFullName;
     }
 
-    private function resolveRealName(string $className): string
+    private function resolveClassFullName(string $className): string
     {
         $className = isset($this->serviceProviders[$className]) ? $this->serviceProviders[$className] : $className;
 
