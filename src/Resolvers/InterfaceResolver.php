@@ -1,6 +1,6 @@
 <?php
 
-namespace DI\Resolvers;
+namespace IOC\Resolvers;
 
 class InterfaceResolver implements InterfaceResolverInterface
 {

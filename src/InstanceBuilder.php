@@ -1,9 +1,9 @@
 <?php
 
-namespace DI;
+namespace IOC;
 
-use DI\Resolvers\ClassNameResolver;
-use DI\Resolvers\ClassResolver;
+use IOC\Resolvers\ClassNameResolver;
+use IOC\Resolvers\ClassResolver;
 
 class InstanceBuilder
 {
