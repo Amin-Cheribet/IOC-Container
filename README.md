@@ -4,18 +4,18 @@
 
 # How to install:
 ```
-composer require mohamed-amine/di-container
+composer require mohamed-amine/ioc-container
 ```
 # How to use:
 
 ## Basic example:
 
 ```php
-use DI\DI;
+use IOC\IOC;
 
-$container = DI::container();
+$container = IOC::container();
 
-// instead of 
+// instead of
 $object = new Myclass(new Class1(new SubClass(), new Class2();
 
 // use this

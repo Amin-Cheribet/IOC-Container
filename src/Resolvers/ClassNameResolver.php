@@ -6,16 +6,20 @@ class ClassNameResolver implements ClassNameResolverInterface
 {
     use \App\ServiceProvider;
 
-    private $className;
-
     public function __construct(string $className)
     {
-        $this->className = $className;
+        return $this->getRealClassName($className);
     }
 
-    public function getRealClassName(): string
+    public function getRealClassName(string $className): string
     {
-        return $this->resolveRealName($this->className);
+        $realName = $this->resolveRealName($className);
+
+        if (!class_exists($realName)) {
+            throw new \Exception("$className is not found", 1);
+        }
+
+        return $realName;
     }
 
     private function resolveRealName(string $className): string
@@ -26,15 +30,12 @@ class ClassNameResolver implements ClassNameResolverInterface
             return $className;
         }
 
-        if (interface_exists($className)) {
-            return $this->resolveInterface(new InterfaceResolver($className));
-        }
-
-        throw new \Exception("$className is not found", 1);
+        return $this->resolveInterface(new InterfaceResolver($className));
     }
 
     private function resolveInterface(InterfaceNameResolver $interfaceResolver): string
     {
-        return $interfaceResolver->resolveInterfaceClass();
+        $className = $interfaceResolver->resolveInterfaceClass();
+        return isset($this->serviceProvider[$className]) ? $this->serviceProvider[$className] : $className ;
     }
 }
