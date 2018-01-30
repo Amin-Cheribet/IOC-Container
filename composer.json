@@ -1,6 +1,6 @@
 {
-    "name": "mohamed-amine/di-container",
-    "description": "PHP dependency injection container",
+    "name": "mohamed-amine/ioc-container",
+    "description": "Inversion of control container",
     "license": "MIT",
 
     "require": {
@@ -20,7 +20,7 @@
 
     "autoload": {
     "psr-4": {
-      "DI\\":"src/"
+      "IOC\\":"src/"
     }
   }
 }
