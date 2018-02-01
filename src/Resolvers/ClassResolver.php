@@ -13,6 +13,7 @@ class ClassResolver implements ClassResolverInterface
 
     public function getConstructorParameters(): array
     {
+        $parameters = [];
         if (!$this->reflector->hasMethod('__construct')) {
             return [];
         }

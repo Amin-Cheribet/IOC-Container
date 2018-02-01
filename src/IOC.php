@@ -6,7 +6,7 @@ use Exception;
 
 class IOC
 {
-    public $classes = [];
+    private $classes = [];
 
     public static function container()
     {
