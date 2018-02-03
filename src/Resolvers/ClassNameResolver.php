@@ -18,7 +18,7 @@ class ClassNameResolver implements ClassNameResolverInterface
         $classFullName = $this->resolveClassFullName($this->className);
 
         if (!class_exists($classFullName)) {
-            throw new \Exception("$className Resolved from $this->className is not found", 1);
+            throw new \Exception("$classFullName Resolved from $this->className is not found", 1);
         }
 
         return $classFullName;
@@ -35,9 +35,9 @@ class ClassNameResolver implements ClassNameResolverInterface
         return $this->resolveInterface(new InterfaceResolver($className));
     }
 
-    private function resolveInterface(InterfaceNameResolver $interfaceResolver): string
+    private function resolveInterface(InterfaceResolverInterface $interfaceResolver): string
     {
-        $className = $interfaceResolver->resolveInterfaceClass();
+        $className = $interfaceResolver->resolveInterfaceClass($this->className);
         return isset($this->serviceProvider[$className]) ? $this->serviceProvider[$className] : $className ;
     }
 }

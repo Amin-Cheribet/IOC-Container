@@ -4,5 +4,5 @@ namespace IOC\Resolvers;
 
 interface InterfaceResolverInterface
 {
-    public function resolveInterfaceClass(): string;
+    public function resolveInterfaceClass(string $className): string;
 }
