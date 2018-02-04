@@ -4,7 +4,7 @@ namespace IOC\Resolvers;
 
 class ClassNameResolver implements ClassNameResolverInterface
 {
-    use \App\ServiceProvider;
+    use \ServiceProviders\IOCProvider;
 
     private $className;
 
