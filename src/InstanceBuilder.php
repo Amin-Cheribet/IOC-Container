@@ -11,9 +11,9 @@ class InstanceBuilder
     public $className;
     public $arguments;
 
-    public function __construct(string $className, array $arguments = [])
+    public function __construct(array $aliases, string $className, array $arguments = [])
     {
-        $this->className = $this->resolveClassRealName(new ClassNameResolver($className));
+        $this->className = $this->resolveClassRealName(new ClassNameResolver($aliases, $className));
         $this->arguments = $arguments;
         $this->setClassResolver(new ClassResolver(new \ReflectionClass($this->className)));
     }

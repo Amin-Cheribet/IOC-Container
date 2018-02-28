@@ -4,13 +4,12 @@ namespace IOC\Resolvers;
 
 class ClassNameResolver implements ClassNameResolverInterface
 {
-    use \ServiceProviders\IOCProvider;
-
     private $className;
 
-    public function __construct(string $className)
+    public function __construct(array $aliases, string $className)
     {
         $this->className = $className;
+        $this->aliases   = $aliases;
     }
 
     public function getRealClassName(): string
@@ -26,7 +25,7 @@ class ClassNameResolver implements ClassNameResolverInterface
 
     private function resolveClassFullName(string $className): string
     {
-        $className = isset($this->serviceProviders[$className]) ? $this->serviceProviders[$className] : $className;
+        $className = $this->aliases[$className] ?? $className;
 
         if (class_exists($className)) {
             return $className;
@@ -38,6 +37,6 @@ class ClassNameResolver implements ClassNameResolverInterface
     private function resolveInterface(InterfaceResolverInterface $interfaceResolver): string
     {
         $className = $interfaceResolver->resolveInterfaceClass($this->className);
-        return isset($this->serviceProvider[$className]) ? $this->serviceProvider[$className] : $className ;
+        return $this->aliases[$className] ?? $className;
     }
 }
