@@ -11,12 +11,12 @@ class InterfaceResolver implements InterfaceResolverInterface
 
     public function resolveInterfaceClass(string $className): string
     {
-        $splits        = $this->splitName($className);
+        $splits        = $this->splitClassName($className);
         $realClassName = $this->extractClassName(array_pop($splits));
         return $this->bindClassName(array_merge($splits, [$realClassName]));
     }
 
-    private function splitName(string $className): array
+    private function splitClassName(string $className): array
     {
         return explode('\\', $className);
     }
