@@ -4,31 +4,70 @@ namespace IOC;
 
 class IOC
 {
+    /**
+ 	 * Container instances.
+ 	 *
+ 	 * @var array
+	 */
     private $instances = [];
-    private $aliases   = [];
 
-    public static function container()
+    /**
+ 	 * Classes short names.
+ 	 *
+ 	 * @var array
+	 */
+    private $aliases = [];
+
+    /**
+ 	 * This static method return an instance of IOC class (this class).
+ 	 *
+ 	 * @return IOC
+	 */
+
+    public static function container(): self
     {
         return new static();
     }
 
+    /**
+ 	 * Create an instance from a given full namespace fo class
+     * Or from predefined aliases
+ 	 *
+ 	 * @param string $className
+     * @param array $arguments
+     *
+ 	 * @return object
+	 */
     public function build(string $className, array $arguments = [])
     {
         $builder = new InstanceBuilder($this->aliases, $className, $arguments);
         $instanceName = $builder->classResolver->getClassShortName();
+
         return $this->instances[$instanceName] = $builder->build();
     }
 
-    public function bind(string $className, \Closure $action)
+    /**
+ 	 * Bind instance into the container.
+ 	 *
+ 	 * @param string $className
+     * @param Closure $action
+	 */
+    public function bind(string $className, \Closure $action): void
     {
         if (array_key_exists($className, $this->instances)) {
             throw new \Exception("$className can't be registred (already exisits)", 15);
         }
-        
+
         $this->instances[$className] = $action();
     }
 
-    public function register($key, $aliase)
+    /**
+ 	 * Block comment
+ 	 *
+ 	 * @param string $key
+     * @param string $aliase
+	 */
+    public function register($key, $aliase): void
     {
         if (array_key_exists($key, $this->aliases)) {
             throw new \Exception("$key aliase already exists", 16);
@@ -37,7 +76,14 @@ class IOC
         $this->aliases[$key] = $aliase;
     }
 
-    public function get(string $class)
+    /**
+ 	 * Get an instance from container by it's class name.
+ 	 *
+ 	 * @param string $class
+     *
+ 	 * @return object
+	 */
+    public function get(string $class): object
     {
         if (isset($this->instances[$class])) {
             return $this->instances[$class];
@@ -45,6 +91,13 @@ class IOC
         throw new \Exception("$class does not exist", 1);
     }
 
+    /**
+ 	 * return an instance from the container.
+ 	 *
+ 	 * @param string $className
+     *
+ 	 * @return object
+	 */
     public function __get(string $className)
     {
         return $this->instances[$className];
