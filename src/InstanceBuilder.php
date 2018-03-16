@@ -18,35 +18,66 @@ class InstanceBuilder
         $this->setClassResolver(new ClassResolver(new \ReflectionClass($this->className)));
     }
 
+    /**
+ 	 * Create an instance from given class name
+     * And create instances from it's arguments
+     * if it's arguments are valide classes
+ 	 *
+ 	 * @return object
+	 */
     public function build()
     {
         if (!empty($this->arguments)) {
             return $this->createInstance($this->arguments);
         }
-        $parameters = $this->classResolver->getConstructorParameters();
+        $parameters = $this->classResolver->getConstructorArguments();
 
         return empty($parameters) ? $this->createInstance() : $this->resolveDependencies($parameters);
     }
 
-    private function resolveClassRealName(ClassNameResolver $classNameResolver)
+    /**
+ 	 * Resolve class real name from full namespace.
+ 	 *
+ 	 * @param ClassNameResolver
+     *
+ 	 * @return string
+	 */
+    private function resolveClassRealName(ClassNameResolver $classNameResolver): string
     {
         return $classNameResolver->getRealClassName();
     }
 
-    private function resolveDependencies(array $parameters)
+    /**
+ 	 * Create arguments instances
+ 	 *
+ 	 * @param array $parameters
+	 */
+    private function resolveDependencies(array $parameters): object
     {
         foreach ($parameters as $value => $key) {
             $dependencies[] = $this->build($key->name);
         }
-        $this->createInstance($dependencies);
+
+        return $this->createInstance($dependencies);
     }
 
+    /**
+ 	 * Create instance
+ 	 *
+ 	 * @param type
+ 	 * @return object
+	 */
     private function createInstance(array $arguments = [])
     {
         return $this->classResolver->createClassInstance($arguments);
     }
 
-    private function setClassResolver(ClassResolver $resolver)
+    /**
+ 	 * Set ClassResolver to $this->classResolver.
+ 	 *
+ 	 * @param ClassResolver $resolver
+	 */
+    private function setClassResolver(ClassResolver $resolver): void
     {
         $this->classResolver = $resolver;
     }
