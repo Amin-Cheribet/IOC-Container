@@ -30,7 +30,7 @@ class Container
     public function build(string $className, array $arguments = [])
     {
         $builder = new InstanceBuilder($this->aliases, $className, $arguments);
-        $instanceName = $builder->classResolver->getClassShortName();
+        $instanceName = isset($this->aliases[$className]) ? $className : $builder->classResolver->getClassShortName();
 
         return $this->instances[$instanceName] = $builder->build();
     }
@@ -51,12 +51,12 @@ class Container
     }
 
     /**
- 	 * Block comment
+ 	 * Register a short name (aliase) of a class
  	 *
  	 * @param string $key
      * @param string $aliase
 	 */
-    public function register($key, $aliase): void
+    public function register(string $key, string $aliase): void
     {
         if (array_key_exists($key, $this->aliases)) {
             throw new \Exception("$key aliase already exists", 16);
