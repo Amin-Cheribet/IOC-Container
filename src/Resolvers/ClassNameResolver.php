@@ -2,7 +2,7 @@
 
 namespace IOC\Resolvers;
 
-class ClassNameResolver implements ClassNameResolverInterface
+class ClassNameResolver
 {
     /**
  	 * Class name
@@ -48,19 +48,7 @@ class ClassNameResolver implements ClassNameResolverInterface
             return $className;
         }
 
-        return $this->resolveInterface(new InterfaceResolver($className));
-    }
+        throw new \Exception("$className class does not exist", 33);
 
-    /**
- 	 * Resolve class name from interface name.
- 	 *
- 	 * @param InterfaceResolverInterface $interfaceResolver
-     *
- 	 * @return string
-	 */
-    private function resolveInterface(InterfaceResolverInterface $interfaceResolver): string
-    {
-        $className = $interfaceResolver->resolveInterfaceClass($this->className);
-        return $this->aliases[$className] ?? $className;
     }
 }

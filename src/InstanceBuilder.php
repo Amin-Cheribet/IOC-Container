@@ -38,8 +38,7 @@ class InstanceBuilder
     /**
  	 * Resolve class real name from full namespace.
  	 *
- 	 * @param ClassNameResolver
-     *
+ 	 * @param ClassNameResolver $classNameResolver
  	 * @return string
 	 */
     private function resolveClassRealName(ClassNameResolver $classNameResolver): string
@@ -51,8 +50,9 @@ class InstanceBuilder
  	 * Create arguments instances
  	 *
  	 * @param array $parameters
+     * @return object
 	 */
-    private function resolveDependencies(array $parameters): object
+    private function resolveDependencies(array $parameters)
     {
         foreach ($parameters as $value => $key) {
             $dependencies[] = $this->build($key->name);
@@ -62,9 +62,9 @@ class InstanceBuilder
     }
 
     /**
- 	 * Create instance
+ 	 * Create instance of object
  	 *
- 	 * @param type
+ 	 * @param array $arguments
  	 * @return object
 	 */
     private function createInstance(array $arguments = [])
