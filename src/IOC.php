@@ -4,15 +4,21 @@ namespace IOC;
 
 class IOC
 {
+    /**
+ 	 * The IOC container
+ 	 *
+ 	 * @var Container
+	 */
     private static $container;
 
     /**
  	 * This static method return an instance of IOC class (this class).
  	 *
+     * @return Container
 	 */
-    public static function createContainer(): void
+    public static function createContainer(): Container
     {
-        static::$container = new Container();
+        return static::$container = new Container();
     }
 
     /**
