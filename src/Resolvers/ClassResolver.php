@@ -2,7 +2,7 @@
 
 namespace IOC\Resolvers;
 
-class ClassResolver implements ClassResolverInterface
+class ClassResolver
 {
     /**
  	 * Class reflection of the resolved class
