@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/MohamedAmine-C/IOC-Container.svg?branch=master)](https://travis-ci.org/MohamedAmine-C/IOC-Container)
+
 # How to install:
 ### Via composer.json
 ``` "mohamed-amine/ioc-container": ">=0.5" ```
