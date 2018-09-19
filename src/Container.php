@@ -5,28 +5,28 @@ namespace IOC;
 class Container
 {
     /**
- 	 * Container instances.
- 	 *
- 	 * @var array
-	 */
+     * Container instances.
+     *
+     * @var array
+     */
     private $instances = [];
 
     /**
- 	 * Classes short names.
- 	 *
- 	 * @var array
-	 */
+     * Classes short names.
+     *
+     * @var array
+     */
     private $aliases = [];
 
     /**
- 	 * Create an instance from a given full namespace fo class
+     * Create an instance from a given full namespace fo class
      * Or from predefined aliases
- 	 *
- 	 * @param string $className
+     *
+     * @param string $className
      * @param array $arguments
      *
- 	 * @return object
-	 */
+     * @return object
+     */
     public function build(string $className, array $arguments = [])
     {
         $builder = new InstanceBuilder($this->aliases, $className, $arguments);
@@ -36,11 +36,11 @@ class Container
     }
 
     /**
- 	 * Bind instance into the container.
- 	 *
- 	 * @param string $className
+     * Bind instance into the container.
+     *
+     * @param string $className
      * @param Closure $action
-	 */
+     */
     public function bind(string $className, \Closure $action): void
     {
         if (array_key_exists($className, $this->instances)) {
@@ -51,11 +51,11 @@ class Container
     }
 
     /**
- 	 * Register a short name (aliase) of a class
- 	 *
- 	 * @param string $key
+     * Register a short name (aliase) of a class
+     *
+     * @param string $key
      * @param string $aliase
-	 */
+     */
     public function register(string $key, string $aliase): void
     {
         if (array_key_exists($key, $this->aliases)) {
@@ -66,12 +66,12 @@ class Container
     }
 
     /**
- 	 * Get an instance from container by it's class name.
- 	 *
- 	 * @param string $class
+     * Get an instance from container by it's class name.
      *
- 	 * @return object
-	 */
+     * @param string $class
+     *
+     * @return object
+     */
     public function get(string $class)
     {
         if (isset($this->instances[$class])) {
@@ -81,12 +81,12 @@ class Container
     }
 
     /**
- 	 * return an instance from the container.
- 	 *
- 	 * @param string $className
+     * return an instance from the container.
      *
- 	 * @return object
-	 */
+     * @param string $className
+     *
+     * @return object
+     */
     public function __get(string $className)
     {
         return $this->instances[$className];

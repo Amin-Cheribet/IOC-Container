@@ -1,6 +1,7 @@
 <?php
 
 use PHPUnit\Framework\TestCase;
+
 require 'Example.php';
 class ContainerTest extends TestCase
 {
@@ -9,13 +10,12 @@ class ContainerTest extends TestCase
         $container = IOC\IOC::createContainer();
         $container->build('Example');
         $this->assertInstanceof(Example::class, $container->Example);
-        $this->assertInstanceof(Example::class, $container->get('Example'));
     }
 
     public function testBind()
     {
         $container = IOC\IOC::createContainer();
-        $container->bind('Example', function() {
+        $container->bind('Example', function () {
             return new Example;
         });
         $this->assertInstanceof(Example::class, $container->Example);
@@ -30,5 +30,13 @@ class ContainerTest extends TestCase
         // test in case of registering a new short name that exists
         $this->expectException(\Exception::class);
         $container->register('ExampleShortName', 'Example');
+    }
+
+    public function testGet()
+    {
+        $container = IOC\IOC::createContainer();
+        $container->build('Example');
+        $this->assertInstanceof(Example::class, $container->get('Example'));
+        $this->assertInstanceof(Example::class, $container->Example);
     }
 }
