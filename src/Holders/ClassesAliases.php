@@ -16,7 +16,7 @@ class ClassesAliases implements RegisteryHolder
         $this->classes[$key] = $value;
     }
 
-    public function __isset(string $key): boolean
+    public function __isset(string $key): bool
     {
         if (isset($this->classes[$key])) {
             return true;

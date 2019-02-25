@@ -1,6 +1,8 @@
 <?php
 namespace IOC\ClassFinder;
 
+use IOC\Holders\RegisteryHolder;
+
 class ClassTypeFinder implements FinderInterface
 {
     private $holder;
@@ -10,7 +12,7 @@ class ClassTypeFinder implements FinderInterface
         $this->holder = $holder;
     }
 
-    public function find(string $className): boolean
+    public function find(string $className): bool
     {
         if (isset($this->holder->{$className})) {
             return true;

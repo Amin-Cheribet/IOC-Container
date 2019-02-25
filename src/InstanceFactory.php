@@ -3,49 +3,69 @@
 namespace IOC;
 
 use IOC\ClassFinder\NamespaceFinder;
-use IOC\InstanceREsolver\InstanceResolver;
+use IOC\ClassFinder\NamespaceFinderInterface;
+use IOC\InstanceResolver\InstanceResolver;
 use IOC\Holders\Holder as Holder;
+use IOC\Holders\RegisteryHolder as RegisteryHolder;
 
-class InstanceBuilder
+class InstanceFactory
 {
     private $instanceResolver;
     private $instance;
     private $classShortName;
     private $classesHolder;
     private $interfacesHolder;
+    private $classNameFlag = true;
+
+    public function __construct(RegisteryHolder $classesHolder, RegisteryHolder $interfacesHolder)
+    {
+        $this->classesHolder   = $classesHolder;
+        $this->interfacesHolder = $interfacesHolder;
+    }
 
     /**
      * Create an instance from given class name
      * And create instances from it's arguments
      * if it's arguments are valide classes
      *
-     * @return object
      */
-    public function create(string $className, mixed ...$arguments)
+    public function create(string $className, ...$arguments): self
     {
-        if (!empty($this->arguments)) {
-            return $this->createInstance($this->arguments);
-        }
         $this->classNamespace   = $this->resolveClassRealName(new NamespaceFinder($className, $this->classesHolder, $this->interfacesHolder));
         $this->instanceResolver = new InstanceResolver($this->classNamespace);
-        $this->classShortName   = $this->instanceShortName ?? $this->instanceResolver->getShortName();
+        $this->setClassShortName($className, $this->instanceResolver->getShortName());
+        if (!empty($arguments)) {
+            $this->instance = $this->createInstance($arguments[0]);
+            return $this;
+        }
         $constructorParameters  = $this->instanceResolver->getConstructorParameters();
 
         $this->instance = empty($constructorParameters) ? $this->createInstance() : $this->resolveInstanceDependencies($constructorParameters);
+        return $this;
     }
 
-    public function initiat(RegisteryHolder $classesHolder, RegisteryHolder $interfacesHolder)
+    private function setClassShortName(string $userName, string $realName): void
     {
-        $this->classesHolder   = $classesHolder;
-        $this->interfacesHolder = $interfacesHolder;
+        if ($this->classNameFlag) {
+            $this->classShortName = $userName;
+            if (class_exists($userName)) {
+                $this->classShortName = $realName;
+            }
+        }
+        $this->raisFlag();
     }
 
-    public function getInsatnce()
+    private function raisFlag(): void
+    {
+        $this->classNameFlag = false;
+    }
+
+    public function getInstance()
     {
         return $this->instance;
     }
 
-    public function getClassName()
+    public function getClassShortName()
     {
         return $this->classShortName;
     }
@@ -56,7 +76,7 @@ class InstanceBuilder
      * @param ClassNameResolver $classNameResolver
      * @return string
      */
-    private function resolveClassRealName(ClassFinder $classNameResolver): string
+    private function resolveClassRealName(NamespaceFinderInterface $classNameResolver): string
     {
         return $classNameResolver->getRealClassName();
     }
@@ -69,8 +89,8 @@ class InstanceBuilder
      */
     private function resolveInstanceDependencies(array $constructorParameters)
     {
-        foreach ($constructorParameters as $value => $key) {
-            $dependencies[] = $this->create($key->getClass()->getNamespaceName());
+        foreach ($constructorParameters as $value) {
+            $dependencies[] = $this->create($value->getClass()->getNamespaceName());
         }
 
         return $this->createInstance($dependencies);
@@ -82,7 +102,7 @@ class InstanceBuilder
      * @param array $arguments
      * @return object
      */
-    private function createInstance(mixed ...$arguments)
+    private function createInstance(array $arguments = [])
     {
         return $this->instanceResolver->createClassInstance($arguments);
     }

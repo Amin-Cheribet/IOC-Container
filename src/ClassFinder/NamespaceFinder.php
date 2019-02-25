@@ -1,7 +1,9 @@
 <?php
 namespace IOC\ClassFinder;
 
-class NamespaceFinder
+use IOC\Holders\RegisteryHolder;
+
+class NamespaceFinder implements NamespaceFinderInterface
 {
     private $className;
     private $classesHolder;
@@ -27,10 +29,10 @@ class NamespaceFinder
             return $this->interfacesHolder->{$this->className};
         }
 
-        throw new \Exception("$this->className does can't be found", 1);
+        throw new \Exception("$this->className can't be found", 1);
     }
 
-    private function inHolder(FinderInterface $finder): boolean
+    private function inHolder(FinderInterface $finder): bool
     {
         return $finder->find($this->className);
     }

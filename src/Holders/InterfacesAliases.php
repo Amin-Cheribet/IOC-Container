@@ -16,7 +16,7 @@ class InterfacesAliases implements RegisteryHolder
         $this->interfaces[$key] = $value;
     }
 
-    public function __isset(strin $key): boolean
+    public function __isset(string $key): bool
     {
         if (isset($this->interfaces[$key])) {
             return true;
