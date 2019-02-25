@@ -13,6 +13,9 @@ class ClassesAliases implements RegisteryHolder
 
     public function __set(string $key, string $value): void
     {
+        if (isset($this->classes[$key])) {
+            throw new \Exception("can't register $key, already registered in the container", 1);
+        }
         $this->classes[$key] = $value;
     }
 

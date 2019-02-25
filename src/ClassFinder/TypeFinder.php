@@ -3,7 +3,7 @@ namespace IOC\ClassFinder;
 
 use IOC\Holders\RegisteryHolder;
 
-class InterfaceTypeFinder implements FinderInterface
+class TypeFinder implements FinderInterface
 {
     private $holder;
 

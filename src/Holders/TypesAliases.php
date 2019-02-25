@@ -2,7 +2,7 @@
 
 namespace IOC\Holders;
 
-class InterfacesAliases implements RegisteryHolder
+class TypesAliases implements RegisteryHolder
 {
     private $interfaces = [];
 
@@ -13,6 +13,9 @@ class InterfacesAliases implements RegisteryHolder
 
     public function __set(string $key, string $value): void
     {
+        if (isset($this->interfaces[$key])) {
+            throw new \Exception("Can't register $key type, already registered in the container", 1);
+        }
         $this->interfaces[$key] = $value;
     }
 

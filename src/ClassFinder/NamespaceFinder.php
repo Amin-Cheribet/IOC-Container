@@ -7,14 +7,14 @@ class NamespaceFinder implements NamespaceFinderInterface
 {
     private $className;
     private $classesHolder;
-    private $interfacesHolder;
+    private $typesHolder;
     private $classNamespace;
 
-    public function __construct(string $className, RegisteryHolder $classesHolder, RegisteryHolder $interfacesHolder)
+    public function __construct(string $className, RegisteryHolder $classesHolder, RegisteryHolder $typesHolder)
     {
-        $this->className        = $className;
-        $this->classesHolder    = $classesHolder;
-        $this->interfacesHolder = $interfacesHolder;
+        $this->className     = $className;
+        $this->classesHolder = $classesHolder;
+        $this->typesHolder   = $typesHolder;
     }
 
     public function getRealClassName(): string
@@ -22,11 +22,11 @@ class NamespaceFinder implements NamespaceFinderInterface
         if (class_exists($this->className)) {
             return $this->className;
         }
-        if ($this->inHolder(new ClassTypeFinder($this->classesHolder))) {
+        if ($this->inHolder(new ClassFinder($this->classesHolder))) {
             return $this->classesHolder->{$this->className};
         }
-        if ($this->inHolder(new InterfaceTypeFinder($this->interfacesHolder))) {
-            return $this->interfacesHolder->{$this->className};
+        if ($this->inHolder(new TypeFinder($this->typesHolder))) {
+            return $this->typesHolder->{$this->className};
         }
 
         throw new \Exception("$this->className can't be found", 1);

@@ -6,19 +6,19 @@ class Container
 {
     private $factory;
     private $classesAliases;
-    private $interfacesAliases;
+    private $typesAliases;
     private $instances;
 
     public function __construct()
     {
-        $this->classesAliases    = new Holders\ClassesAliases();
-        $this->interfacesAliases = new Holders\InterfacesAliases();
-        $this->instances         = new Holders\InstancesHolder();
+        $this->classesAliases = new Holders\ClassesAliases();
+        $this->typesAliases    = new Holders\typesAliases();
+        $this->instances      = new Holders\InstancesHolder();
     }
 
     public function build(string $className, ...$arguments)
     {
-        $this->factory     = new InstanceFactory($this->classesAliases, $this->interfacesAliases);
+        $this->factory     = new InstanceFactory($this->classesAliases, $this->typesAliases);
         $instanceResolver  = $this->factory->create($className, $arguments);
         $instanceShortName = (isset($this->classesAliases->$className)) ? $className : $instanceResolver->getClassShortName();
 
@@ -55,7 +55,7 @@ class Container
      */
     public function registerInteface(string $key, string $aliase): void
     {
-        $this->interfacesAliases->$key = $aliase;
+        $this->typesAliases->$key = $aliase;
     }
 
     /**

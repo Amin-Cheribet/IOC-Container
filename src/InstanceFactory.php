@@ -14,13 +14,13 @@ class InstanceFactory
     private $instance;
     private $classShortName;
     private $classesHolder;
-    private $interfacesHolder;
+    private $typesAliases;
     private $classNameFlag = true;
 
-    public function __construct(RegisteryHolder $classesHolder, RegisteryHolder $interfacesHolder)
+    public function __construct(RegisteryHolder $classesHolder, RegisteryHolder $typesAliases)
     {
-        $this->classesHolder   = $classesHolder;
-        $this->interfacesHolder = $interfacesHolder;
+        $this->classesHolder = $classesHolder;
+        $this->typesAliases  = $typesAliases;
     }
 
     /**
@@ -31,7 +31,7 @@ class InstanceFactory
      */
     public function create(string $className, ...$arguments): self
     {
-        $this->classNamespace   = $this->resolveClassRealName(new NamespaceFinder($className, $this->classesHolder, $this->interfacesHolder));
+        $this->classNamespace   = $this->resolveClassRealName(new NamespaceFinder($className, $this->classesHolder, $this->typesAliases));
         $this->instanceResolver = new InstanceResolver($this->classNamespace);
         $this->setClassShortName($className, $this->instanceResolver->getShortName());
         if (!empty($arguments)) {
