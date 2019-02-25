@@ -4,50 +4,37 @@ namespace IOC;
 
 class Container
 {
-    /**
-     * Container instances.
-     *
-     * @var array
-     */
-    private $instances = [];
+    private $factory;
+    private $classesAliases;
+    private $interfacesAliases;
+    private $instances;
 
-    /**
-     * Classes short names.
-     *
-     * @var array
-     */
-    private $aliases = [];
-
-    /**
-     * Create an instance from a given full namespace fo class
-     * Or from predefined aliases
-     *
-     * @param string $className
-     * @param array $arguments
-     *
-     * @return object
-     */
-    public function build(string $className, array $arguments = [])
+    public function __construct()
     {
-        $builder = new InstanceBuilder($this->aliases, $className, $arguments);
-        $instanceName = isset($this->aliases[$className]) ? $className : $builder->classResolver->getClassShortName();
+        $this->factory           = new InstanceFactory();
+        $this->classesAliases    = new Holders\ClassesAliases();
+        $this->interfacesAliases = new Holders\InterfacesAliases();
+        $this->instances         = new Holders\InstancesHolder();
+    }
 
-        return $this->instances[$instanceName] = $builder->build();
+    public function build(string $className, mixed ...$arguments)
+    {
+        $this->factory-> initiat($this->classesAliases, $this->interfacesAliases);
+        $instanceResolver  = $this->factory->create($className, $arguments);
+        $instanceShortName = isset($this->classesAliases->$$className) ? $className : $instanceResolver->getClassShortName();
+
+        return $this->instances->$instanceShortName = $instanceResolver->getInstance();
     }
 
     /**
      * Bind instance into the container.
      *
-     * @param string $className
+     * @param string $instanceName
      * @param Closure $action
      */
-    public function bind(string $className, \Closure $action): void
+    public function bind(string $instanceName, \Closure $action): void
     {
-        if (array_key_exists($className, $this->instances)) {
-            throw new \Exception("$className can't be registred (already exisits)", 15);
-        }
-
-        $this->instances[$className] = $action();
+        $this->instances->$instanceName = $action();
     }
 
     /**
@@ -58,37 +45,41 @@ class Container
      */
     public function register(string $key, string $aliase): void
     {
-        if (array_key_exists($key, $this->aliases)) {
-            throw new \Exception("$key aliase already exists", 16);
-        }
+        $this->aliases->$key = $classesAliases;
+    }
 
-        $this->aliases[$key] = $aliase;
+    /**
+     * Register a short name (aliase) of a class
+     *
+     * @param string $key
+     * @param string $aliase
+     */
+    public function registerInteface(string $key, string $aliase): void
+    {
+        $this->classesAliases->$key = $classesAliases;
     }
 
     /**
      * Get an instance from container by it's class name.
      *
-     * @param string $class
+     * @param string $instance
      *
      * @return object
      */
-    public function get(string $class)
+    public function get(string $instance)
     {
-        if (isset($this->instances[$class])) {
-            return $this->instances[$class];
-        }
-        throw new \Exception("$class does not exist", 1);
+        return $this->instances->$instance;
     }
 
     /**
      * return an instance from the container.
      *
-     * @param string $className
+     * @param string $instance
      *
      * @return object
      */
-    public function __get(string $className)
+    public function __get(string $instance)
     {
-        return $this->instances[$className];
+        return $this->get($instance);
     }
 }
