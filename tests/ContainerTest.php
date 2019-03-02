@@ -3,9 +3,19 @@
 use PHPUnit\Framework\TestCase;
 
 require 'Example.php';
+require 'Example2.php';
+require 'Example3.php';
+
 class ContainerTest extends TestCase
 {
-    public function testBuildAndGet()
+    public function testBuildSimple()
+    {
+        $container = IOC\IOC::createContainer();
+        $container->build('Example2');
+        $this->assertInstanceof(Example2::class, $container->Example2);
+    }
+
+    public function testBuildWithDependency()
     {
         $container = IOC\IOC::createContainer();
         $container->build('Example');
@@ -16,7 +26,7 @@ class ContainerTest extends TestCase
     {
         $container = IOC\IOC::createContainer();
         $container->bind('Example', function () {
-            return new Example;
+            return new Example(new Example2, new Example3);
         });
         $this->assertInstanceof(Example::class, $container->Example);
     }
