@@ -5,6 +5,7 @@ use PHPUnit\Framework\TestCase;
 require 'Example.php';
 require 'Example2.php';
 require 'Example3.php';
+require 'Example4.php';
 
 class ContainerTest extends TestCase
 {
@@ -20,6 +21,13 @@ class ContainerTest extends TestCase
         $container = IOC\IOC::createContainer();
         $container->build('Example');
         $this->assertInstanceof(Example::class, $container->Example);
+    }
+
+    public function testWithArgs()
+    {
+        $container = IOC\IOC::createContainer();
+        $container->build('Example4', 'name', 'age');
+        $this->assertInstanceof(Example4::class, $container->Example4);
     }
 
     public function testBind()
