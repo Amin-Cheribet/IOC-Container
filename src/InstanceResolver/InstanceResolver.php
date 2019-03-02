@@ -14,13 +14,17 @@ class InstanceResolver extends \ReflectionClass
 
     public function getConstructorParameters(): array
     {
-        $parameters = [];
         if (!$this->hasMethod('__construct')) {
             return [];
         }
-        var_dump($this);
+
+        return $this->resolveParameters();
+    }
+
+    private function resolveParameters(): array
+    {
+        $parameters = [];
         $data = $this->getConstructor()->getParameters();
-        var_dump($data[0]->getClass());
         foreach ($data as $parameter) {
             $parameters[] = $parameter->getClass()->getName();
         }
@@ -28,7 +32,7 @@ class InstanceResolver extends \ReflectionClass
         return $parameters;
     }
 
-    public function createClassInstance(array $parameters = null)
+    public function createClassInstance(array $parameters = [])
     {
         return $this->newInstanceArgs($parameters);
     }

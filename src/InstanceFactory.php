@@ -10,17 +10,16 @@ use IOC\Holders\RegisteryHolder as RegisteryHolder;
 
 class InstanceFactory
 {
-    private $instanceResolver;
-    private $instance;
-    private $classShortName;
+    public $instanceResolver;
     private $classesHolder;
     private $typesAliases;
-    private $classNameFlag = true;
 
-    public function __construct(RegisteryHolder $classesHolder, RegisteryHolder $typesAliases)
+    public function __construct(string $className, RegisteryHolder $classesHolder, RegisteryHolder $typesAliases)
     {
-        $this->classesHolder = $classesHolder;
-        $this->typesAliases  = $typesAliases;
+        $this->classesHolder    = $classesHolder;
+        $this->typesAliases     = $typesAliases;
+        $classNamespace         = $this->resolveClassRealName(new NamespaceFinder($className, $this->classesHolder, $this->typesAliases));
+        $this->instanceResolver = new InstanceResolver($classNamespace);
     }
 
     /**
@@ -29,45 +28,23 @@ class InstanceFactory
      * if it's arguments are valide classes
      *
      */
-    public function create(string $className, ...$arguments): self
+    public function create(...$arguments)
     {
-        $this->classNamespace   = $this->resolveClassRealName(new NamespaceFinder($className, $this->classesHolder, $this->typesAliases));
-        $this->instanceResolver = new InstanceResolver($this->classNamespace);
-        $this->setClassShortName($className, $this->instanceResolver->getShortName());
-        if (!empty($arguments)) {
-            $this->instance = $this->createInstance($arguments[0]);
-            return $this;
+        if (!empty($arguments[0])) {
+            return $this->createInstance($this->instanceResolver, $arguments[0]);
         }
         $constructorParameters  = $this->instanceResolver->getConstructorParameters();
 
-        $this->instance = empty($constructorParameters) ? $this->createInstance() : $this->resolveInstanceDependencies($constructorParameters);
-        return $this;
+        return empty($constructorParameters) ? $this->createInstance($this->instanceResolver) : $this->resolveInstanceDependencies($this->instanceResolver, $constructorParameters);
     }
 
-    private function setClassShortName(string $userName, string $realName): void
+    private function createDependency(string $className)
     {
-        if ($this->classNameFlag) {
-            $this->classShortName = $userName;
-            if (class_exists($userName)) {
-                $this->classShortName = $realName;
-            }
-        }
-        $this->raisFlag();
-    }
+        $classNamespace        = $this->resolveClassRealName(new NamespaceFinder($className, $this->classesHolder, $this->typesAliases));
+        $instanceResolver      = new InstanceResolver($classNamespace);
+        $constructorParameters = $instanceResolver->getConstructorParameters();
 
-    private function raisFlag(): void
-    {
-        $this->classNameFlag = false;
-    }
-
-    public function getInstance()
-    {
-        return $this->instance;
-    }
-
-    public function getClassShortName()
-    {
-        return $this->classShortName;
+        return empty($constructorParameters) ? $this->createInstance($instanceResolver) : $this->resolveInstanceDependencies($instanceResolver, $constructorParameters);
     }
 
     /**
@@ -87,13 +64,13 @@ class InstanceFactory
      * @param array $constructorParameters
      * @return object
      */
-    private function resolveInstanceDependencies(array $constructorParameters)
+    private function resolveInstanceDependencies(InstanceResolver $instanceResolver, array $constructorParameters)
     {
         foreach ($constructorParameters as $value) {
-            $dependencies[] = $this->create($value->getClass()->getNamespaceName());
+            $dependencies[] = $this->createDependency($value);
         }
 
-        return $this->createInstance($dependencies);
+        return $this->createInstance($instanceResolver, $dependencies);
     }
 
     /**
@@ -102,8 +79,8 @@ class InstanceFactory
      * @param array $arguments
      * @return object
      */
-    private function createInstance(array $arguments = [])
+    private function createInstance(InstanceResolver $instanceResolver, array $arguments = [])
     {
-        return $this->instanceResolver->createClassInstance($arguments);
+        return $instanceResolver->createClassInstance($arguments);
     }
 }
