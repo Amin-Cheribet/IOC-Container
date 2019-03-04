@@ -47,7 +47,7 @@ class Container
     }
 
     /**
-     * Register a short name (aliase) of a class
+     * Register a short name (aliase) of a Type
      *
      * @param string $key
      * @param string $aliase

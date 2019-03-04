@@ -48,10 +48,7 @@ class InstanceFactory
     }
 
     /**
-     * Resolve class real name from full namespace.
-     *
-     * @param ClassNameResolver $classNameResolver
-     * @return string
+     * Find class full namespace.
      */
     private function resolveClassRealName(NamespaceFinderInterface $classNameResolver): string
     {
@@ -59,9 +56,8 @@ class InstanceFactory
     }
 
     /**
-     * Create arguments instances
+     * Create dependencies instances
      *
-     * @param array $constructorParameters
      * @return object
      */
     private function resolveInstanceDependencies(InstanceResolver $instanceResolver, array $constructorParameters)
@@ -74,9 +70,8 @@ class InstanceFactory
     }
 
     /**
-     * Create instance of object
+     * Create instance of an object from it's classReflection
      *
-     * @param array $arguments
      * @return object
      */
     private function createInstance(InstanceResolver $instanceResolver, array $arguments = [])

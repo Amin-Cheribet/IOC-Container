@@ -3,7 +3,7 @@
 namespace IOC\InstanceResolver;
 
 /**
- *
+ *  ClassResolver holds important imformations about a class
  */
 class InstanceResolver extends \ReflectionClass
 {
