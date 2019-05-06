@@ -12,7 +12,7 @@ class Container
     public function __construct()
     {
         $this->classesAliases = new Holders\ClassesAliases();
-        $this->typesAliases   = new Holders\typesAliases();
+        $this->typesAliases   = new Holders\TypesAliases();
         $this->instances      = new Holders\InstancesHolder();
     }
 
