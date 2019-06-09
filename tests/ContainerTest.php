@@ -19,7 +19,7 @@ class ContainerTest extends TestCase
     public function testBuildWithDependency()
     {
         $container = IOC\IOC::createContainer();
-        $container->build('Example');
+        $container->build(Example::class);
         $this->assertInstanceof(Example::class, $container->Example);
     }
 
@@ -37,6 +37,18 @@ class ContainerTest extends TestCase
             return new Example(new Example2, new Example3);
         });
         $this->assertInstanceof(Example::class, $container->Example);
+    }
+
+    public function testDestroy()
+    {
+        $container = IOC\IOC::createContainer();
+        $container->bind('destroyTest', function () {
+            return new Example2;
+        });
+        $this->assertInstanceof(Example2::class, $container->destroyTest);
+        $container->destroy('destroyTest');
+        $this->expectException(\Exception::class);
+        $container->destroyTest;
     }
 
     public function testRegister()
