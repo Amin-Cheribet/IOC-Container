@@ -16,6 +16,12 @@ class Container
         $this->instances      = new Holders\InstancesHolder();
     }
 
+    /**
+     * build instances and automatically resolve their dependencies or use given arguments
+     *
+     * @param string $className
+     * @param arguments $arguments
+     */
     public function build(string $className, ...$arguments)
     {
         $this->factory     = new InstanceFactory($className, $this->classesAliases, $this->typesAliases);
