@@ -26,4 +26,12 @@ class InstancesHolder implements InstancesHolderInterface
     {
         return (isset($this->instances[$key])) ? true : false;
     }
+
+    public function __unset(string $key): void
+    {
+        if (!array_key_exists($key, $this->instances)) {
+            throw new \Exception("$key can't be unset because it doesn't exist", 1);
+        }
+        unset($this->instances[$key]);
+    }
 }

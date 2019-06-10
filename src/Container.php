@@ -42,6 +42,16 @@ class Container
     }
 
     /**
+     * Delete Instance from the container.
+     *
+     * @param string $instanceName
+     */
+    public function destroy(string $instanceName): void
+    {
+        unset($this->instances->$instanceName);
+    }
+
+    /**
      * Register a short name (aliase) of a class
      *
      * @param string $key
