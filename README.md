@@ -22,7 +22,19 @@ in order to use all the features we need to create a container first
 ```php
   IOC\IOC::container()->build('namespace\MyClass');
 ```
-
+  This will create the MyClass object and create all of it's dependencies recursively for example:
+  ```php
+  // instead of doing this
+  new MyClass(ClassA(), new ClassB());
+  // you can just do this and it will create ClassA & ClassB and pass them automatically
+  IOC\IOC::container()->build('namespace\MyClass');
+  ```
+  In order for this to work you need to use type hinting in MyClass constructor :
+  ```php
+  ...
+  public function __constructor(ClassA $classa, ClassB $classb) {...}
+  ...
+  ```
 - if the instance require arguments we should pass them in an array as a second argument of 'build()' (note that automatic dependencies resolving can't be used in this case):
 ```php
   IOC\IOC::container()->build('namespace\MyClass', $argument1, $argument2);
