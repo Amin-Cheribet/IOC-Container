@@ -25,7 +25,7 @@ in order to use all the features we need to create a container first
   This will create the MyClass object and create all of it's dependencies recursively for example:
   ```php
   // instead of doing this
-  new MyClass(ClassA(), new ClassB());
+  new MyClass(new ClassA(), new ClassB());
   // you can just do this and it will create ClassA & ClassB and pass them automatically
   IOC\IOC::container()->build('namespace\MyClass');
   ```
