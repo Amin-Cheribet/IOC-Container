@@ -16,12 +16,6 @@ class Container
         $this->instances      = new Holders\InstancesHolder();
     }
 
-    /**
-     * build instances and automatically resolve their dependencies or use given arguments
-     *
-     * @param string $className
-     * @param arguments $arguments
-     */
     public function build(string $className, ...$arguments)
     {
         $this->factory     = new InstanceFactory($className, $this->classesAliases, $this->typesAliases);
@@ -33,8 +27,6 @@ class Container
     /**
      * Bind instance into the container.
      *
-     * @param string $instanceName
-     * @param Closure $action
      */
     public function bind(string $instanceName, \Closure $action): void
     {
@@ -44,7 +36,6 @@ class Container
     /**
      * Delete Instance from the container.
      *
-     * @param string $instanceName
      */
     public function destroy(string $instanceName): void
     {
@@ -54,8 +45,6 @@ class Container
     /**
      * Register a short name (aliase) of a class
      *
-     * @param string $key
-     * @param string $aliase
      */
     public function register(string $key, string $aliase): void
     {
@@ -65,8 +54,6 @@ class Container
     /**
      * Register a short name (aliase) of a Type
      *
-     * @param string $key
-     * @param string $aliase
      */
     public function registerType(string $key, string $aliase): void
     {
@@ -76,11 +63,8 @@ class Container
     /**
      * Get an instance from container by it's class name.
      *
-     * @param string $instance
-     *
-     * @return object
      */
-    public function get(string $instance)
+    public function get(string $instance): object
     {
         return $this->instances->$instance;
     }
@@ -88,12 +72,19 @@ class Container
     /**
      * return an instance from the container.
      *
-     * @param string $instance
-     *
-     * @return object
      */
-    public function __get(string $instance)
+    public function __get(string $instance): object
     {
         return $this->get($instance);
+    }
+
+    public function __isset(string $instance): bool
+    {
+        return (isset($this->instances->$instance)) ? true : false;
+    }
+
+    public function __unset(string $instance): void
+    {
+        unset($this->instances->$instance);
     }
 }
