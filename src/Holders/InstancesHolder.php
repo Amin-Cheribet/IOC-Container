@@ -22,7 +22,7 @@ class InstancesHolder implements InstancesHolderInterface
         $this->instances[$key] = $value;
     }
 
-    public function __isset(string $key): boolean
+    public function __isset(string $key): bool
     {
         return (isset($this->instances[$key])) ? true : false;
     }
