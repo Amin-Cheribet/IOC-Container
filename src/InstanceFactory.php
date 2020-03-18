@@ -5,7 +5,6 @@ namespace IOC;
 use IOC\ClassFinder\NamespaceFinder;
 use IOC\ClassFinder\NamespaceFinderInterface;
 use IOC\InstanceResolver\InstanceResolver;
-use IOC\Holders\Holder as Holder;
 use IOC\Holders\RegisteryHolder as RegisteryHolder;
 
 class InstanceFactory
