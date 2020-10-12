@@ -21,6 +21,10 @@ class IOC
      */
     public static function container(): Container
     {
+        if (static::$container) {
+            return static::$container;
+        }
+        static::$container = new Container();
         return static::$container;
     }
 }
