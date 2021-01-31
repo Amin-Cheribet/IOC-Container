@@ -1,11 +1,11 @@
 <?php
 namespace IOC\ClassFinder;
 
-use IOC\Holders\RegisteryHolder;
+use IOC\Holders\RegisteryHolder as RegisteryHolder;
 
 class ClassFinder implements FinderInterface
 {
-    private $holder;
+    private RegisteryHolder $holder;
 
     public function __construct(RegisteryHolder $holder)
     {

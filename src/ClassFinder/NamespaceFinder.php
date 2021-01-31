@@ -1,14 +1,13 @@
 <?php
 namespace IOC\ClassFinder;
 
-use IOC\Holders\RegisteryHolder;
+use IOC\Holders\RegisteryHolder as RegisteryHolder;
 
 class NamespaceFinder implements NamespaceFinderInterface
 {
-    private $className;
-    private $classesHolder;
-    private $typesHolder;
-    private $classNamespace;
+    private string $className;
+    private RegisteryHolder $classesHolder;
+    private RegisteryHolder $typesHolder;
 
     public function __construct(string $className, RegisteryHolder $classesHolder, RegisteryHolder $typesHolder)
     {

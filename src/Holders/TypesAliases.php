@@ -4,7 +4,7 @@ namespace IOC\Holders;
 
 class TypesAliases implements RegisteryHolder
 {
-    private $interfaces = [];
+    private array $interfaces = [];
 
     public function __get(string $key): string
     {

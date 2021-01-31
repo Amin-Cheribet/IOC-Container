@@ -4,9 +4,9 @@ namespace IOC\Holders;
 
 class InstancesHolder implements InstancesHolderInterface
 {
-    private $instances = [];
+    private array $instances = [];
 
-    public function __get(string $key)
+    public function __get(string $key): Object
     {
         if (!array_key_exists($key, $this->instances)) {
             throw new \Exception("$key object does not exist in the container", 1);
