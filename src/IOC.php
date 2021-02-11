@@ -4,7 +4,7 @@ namespace IOC;
 
 class IOC
 {
-    private static $container;
+    private static Container $container;
 
     /**
      * This static method return an instance of IOC class (this class).

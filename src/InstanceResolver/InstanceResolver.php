@@ -32,7 +32,7 @@ class InstanceResolver extends \ReflectionClass
         return $parameters;
     }
 
-    public function createClassInstance(array $parameters = [])
+    public function createClassInstance(array $parameters = []): Object
     {
         return $this->newInstanceArgs($parameters);
     }

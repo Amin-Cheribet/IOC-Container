@@ -4,7 +4,7 @@ namespace IOC\Holders;
 
 class ClassesAliases implements RegisteryHolder
 {
-    private $classes = [];
+    private array $classes = [];
 
     public function __get(string $key): string
     {
@@ -24,6 +24,7 @@ class ClassesAliases implements RegisteryHolder
         if (isset($this->classes[$key])) {
             return true;
         }
+        
         return false;
     }
 }

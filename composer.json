@@ -5,14 +5,14 @@
 
     "require": {
         "php": ">=7.4.0",
-        "phpunit/phpunit": ">=6.0"
+        "phpunit/phpunit": ">=9.0"
     },
 
     "authors": [
         {
-            "name": "Mohamed Amine",
-            "email": "MohamedAmine1c@gmail.com",
-            "homepage": "https://github.com/MohamedAmine1c",
+            "name": "Amin Cheribet",
+            "email": "cheribet.amine@gmail.com",
+            "homepage": "https://github.com/Amin-Cheribet",
             "role": "owner"
         }
     ],

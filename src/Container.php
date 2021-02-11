@@ -2,26 +2,30 @@
 
 namespace IOC;
 
+use IOC\Holders\ClassesAliases as ClassesAliases;
+use IOC\Holders\TypesAliases as TypesAliases;
+use IOC\Holders\InstancesHolder as InstancesHolder;
+
 class Container
 {
-    private $factory;
-    private $classesAliases;
-    private $typesAliases;
-    private $instances;
+    private InstanceFactory $factory;
+    private ClassesAliases $classesAliases;
+    private TypesAliases $typesAliases;
+    private InstancesHolder $instances;
 
     public function __construct()
     {
-        $this->classesAliases = new Holders\ClassesAliases();
-        $this->typesAliases   = new Holders\TypesAliases();
-        $this->instances      = new Holders\InstancesHolder();
+        $this->classesAliases = new ClassesAliases();
+        $this->typesAliases   = new TypesAliases();
+        $this->instances      = new InstancesHolder();
     }
 
-    public function build(string $className, ...$arguments)
+    public function build(string $className, ...$arguments): Object
     {
         $this->factory     = new InstanceFactory($className, $this->classesAliases, $this->typesAliases);
         $instanceShortName = (isset($this->classesAliases->$className)) ? $className : $this->factory->instanceResolver->getShortName();
 
-        return $this->instances->$instanceShortName = $this->factory->create($arguments);
+        return $this->instances->{$instanceShortName} = $this->factory->create($arguments);
     }
 
     /**
@@ -80,7 +84,7 @@ class Container
 
     public function __isset(string $instance): bool
     {
-        return (isset($this->instances->$instance)) ? true : false;
+        return (isset($this->instances->$instance)) ? true: false;
     }
 
     public function __unset(string $instance): void
