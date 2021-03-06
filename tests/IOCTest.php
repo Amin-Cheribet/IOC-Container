@@ -12,6 +12,7 @@ class IOCTest extends TestCase
 
     public function testGetContainerInstance()
     {
+        new IOC\IOC();
         $container = IOC\IOC::container();
         $this->assertInstanceof(IOC\Container::class, $container);
     }

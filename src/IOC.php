@@ -21,7 +21,7 @@ class IOC
      */
     public static function container(): Container
     {
-        if (static::$container) {
+        if (isset(static::$container)) {
             return static::$container;
         }
         static::$container = new Container();
