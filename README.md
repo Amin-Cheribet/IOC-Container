@@ -1,8 +1,8 @@
 [![Build Status](https://travis-ci.org/MohamedAmine-C/IOC-Container.svg?branch=master)](https://travis-ci.org/MohamedAmine-C/IOC-Container)
 
 # How to install:
-### Via composer.json
-``` "mohamed-amine/ioc-container": "^0.6" ```
+### Via composer
+``` composer require mohamed-amine/ioc-container ```
 # What can it do:
 
 - create instances and resolve their dependencies automatically.
