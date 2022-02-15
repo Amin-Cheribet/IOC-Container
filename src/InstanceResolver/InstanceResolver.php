@@ -26,7 +26,7 @@ class InstanceResolver extends \ReflectionClass
         $parameters = [];
         $data = $this->getConstructor()->getParameters();
         foreach ($data as $parameter) {
-            $parameters[] = $parameter->getClass()->getName();
+            $parameters[] = $parameter->getType();
         }
 
         return $parameters;
