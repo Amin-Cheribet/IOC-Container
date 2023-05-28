@@ -1,23 +1,23 @@
 {
-    "name": "mohamed-amine/ioc-container",
+    "name"       : "mohamed-amine/ioc-container",
     "description": "Inversion of control container",
-    "license": "MIT",
+    "license"    : "MIT",
 
     "require": {
-        "php": "^8.0",
-        "phpunit/phpunit": "^9.5"
+        "php"            : "^8.2",
+        "phpunit/phpunit": "^10.1"
     },
 
     "authors": [
         {
-            "name": "Amin Cheribet",
-            "email": "cheribet.amine@gmail.com",
+            "name"    : "Amin Cheribet",
+            "email"   : "cheribet.amine@gmail.com",
             "homepage": "https://github.com/Amin-Cheribet",
-            "role": "owner"
+            "role"    : "owner"
         }
     ],
     "minimum-stability": "dev",
-    "prefer-stable": true,
+    "prefer-stable"    : true,
 
     "autoload": {
     "psr-4": {
