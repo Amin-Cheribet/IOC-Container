@@ -24,6 +24,7 @@ class TypesAliases implements RegisteryHolder
         if (isset($this->interfaces[$key])) {
             return true;
         }
+
         return false;
     }
 }

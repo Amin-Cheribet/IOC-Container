@@ -1,4 +1,5 @@
 <?php
+
 namespace IOC\Holders;
 
 interface RegisteryHolder

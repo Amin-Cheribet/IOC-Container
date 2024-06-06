@@ -84,7 +84,7 @@ class Container
 
     public function __isset(string $instance): bool
     {
-        return (isset($this->instances->$instance)) ? true: false;
+        return (isset($this->instances->$instance)) ? true : false;
     }
 
     public function __unset(string $instance): void

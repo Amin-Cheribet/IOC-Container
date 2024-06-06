@@ -11,6 +11,7 @@ class InstancesHolder implements InstancesHolderInterface
         if (!array_key_exists($key, $this->instances)) {
             throw new \Exception("$key object does not exist in the container", 1);
         }
+
         return $this->instances[$key];
     }
 

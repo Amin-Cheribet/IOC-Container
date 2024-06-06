@@ -18,6 +18,12 @@ class ContainerTest extends TestCase
 
     public function testBuildWithDependency()
     {
+        echo 'haha';
+        echo 'hahi';
+        if (true) {
+            //throw new Exception('hdaha');
+        }
+        echo 'hih';
         $container = IOC\IOC::createContainer();
         $container->build(Example::class);
         $this->assertInstanceof(Example::class, $container->Example);

@@ -1,4 +1,5 @@
 <?php
+
 namespace IOC\ClassFinder;
 
 use IOC\Holders\RegisteryHolder as RegisteryHolder;
@@ -17,7 +18,7 @@ class TypeFinder implements FinderInterface
         if (isset($this->holder->{$className})) {
             return true;
         }
-        
+
         return false;
     }
 }

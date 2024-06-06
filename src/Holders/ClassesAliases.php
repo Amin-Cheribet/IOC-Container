@@ -24,7 +24,7 @@ class ClassesAliases implements RegisteryHolder
         if (isset($this->classes[$key])) {
             return true;
         }
-        
+
         return false;
     }
 }

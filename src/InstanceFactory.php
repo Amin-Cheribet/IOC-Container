@@ -15,9 +15,9 @@ class InstanceFactory
 
     public function __construct(string $className, RegisteryHolder $classesHolder, RegisteryHolder $typesAliases)
     {
-        $this->classesHolder    = $classesHolder;
-        $this->typesAliases     = $typesAliases;
-        $classNamespace         = $this->resolveClassRealName(new NamespaceFinder($className, $this->classesHolder, $this->typesAliases));
+        $this->classesHolder = $classesHolder;
+        $this->typesAliases = $typesAliases;
+        $classNamespace = $this->resolveClassRealName(new NamespaceFinder($className, $this->classesHolder, $this->typesAliases));
         $this->instanceResolver = new InstanceResolver($classNamespace);
     }
 
