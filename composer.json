@@ -5,7 +5,7 @@
 
     "require": {
         "php"            : "^8.3",
-        "phpunit/phpunit": "^11.1"
+        "phpunit/phpunit": "^12.5"
     },
 
     "authors": [
