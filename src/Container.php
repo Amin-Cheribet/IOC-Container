@@ -20,12 +20,12 @@ class Container
         $this->instances      = new InstancesHolder();
     }
 
-    public function build(string $className, ...$arguments): Object
+    public function build(string $className, ...$arguments): object
     {
         $this->factory     = new InstanceFactory($className, $this->classesAliases, $this->typesAliases);
         $instanceShortName = (isset($this->classesAliases->$className)) ? $className : $this->factory->instanceResolver->getShortName();
 
-        return $this->instances->{$instanceShortName} = $this->factory->create($arguments);
+        return $this->instances->{$instanceShortName} = $this->factory->create(...$arguments);
     }
 
     /**
@@ -84,7 +84,7 @@ class Container
 
     public function __isset(string $instance): bool
     {
-        return (isset($this->instances->$instance)) ? true : false;
+        return isset($this->instances->$instance);
     }
 
     public function __unset(string $instance): void

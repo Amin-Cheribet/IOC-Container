@@ -21,10 +21,6 @@ class TypesAliases implements RegisteryHolder
 
     public function __isset(string $key): bool
     {
-        if (isset($this->interfaces[$key])) {
-            return true;
-        }
-
-        return false;
+        return isset($this->interfaces[$key]);
     }
 }
