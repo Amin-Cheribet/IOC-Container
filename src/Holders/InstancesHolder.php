@@ -6,7 +6,7 @@ class InstancesHolder implements InstancesHolderInterface
 {
     private array $instances = [];
 
-    public function __get(string $key): Object
+    public function __get(string $key): object
     {
         if (!array_key_exists($key, $this->instances)) {
             throw new \Exception("$key object does not exist in the container", 1);
@@ -15,7 +15,7 @@ class InstancesHolder implements InstancesHolderInterface
         return $this->instances[$key];
     }
 
-    public function __set(string $key, $value): void
+    public function __set(string $key, object $value): void
     {
         if (array_key_exists($key, $this->instances)) {
             throw new \Exception("$key already exists in the container", 1);
@@ -25,7 +25,7 @@ class InstancesHolder implements InstancesHolderInterface
 
     public function __isset(string $key): bool
     {
-        return (isset($this->instances[$key])) ? true : false;
+        return isset($this->instances[$key]);
     }
 
     public function __unset(string $key): void

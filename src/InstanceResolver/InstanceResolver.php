@@ -26,13 +26,16 @@ class InstanceResolver extends \ReflectionClass
         $parameters = [];
         $data = $this->getConstructor()->getParameters();
         foreach ($data as $parameter) {
-            $parameters[] = $parameter->getType();
+            $type = $parameter->getType();
+            if ($type instanceof \ReflectionNamedType && !$type->isBuiltin()) {
+                $parameters[] = $type->getName();
+            }
         }
 
         return $parameters;
     }
 
-    public function createClassInstance(array $parameters = []): Object
+    public function createClassInstance(array $parameters = []): object
     {
         return $this->newInstanceArgs($parameters);
     }

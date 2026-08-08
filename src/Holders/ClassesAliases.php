@@ -21,10 +21,6 @@ class ClassesAliases implements RegisteryHolder
 
     public function __isset(string $key): bool
     {
-        if (isset($this->classes[$key])) {
-            return true;
-        }
-
-        return false;
+        return isset($this->classes[$key]);
     }
 }

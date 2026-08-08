@@ -27,17 +27,17 @@ class InstanceFactory
      * if it's arguments are valide classes
      *
      */
-    public function create(...$arguments): Object
+    public function create(...$arguments): object
     {
-        if (!empty($arguments[0])) {
-            return $this->createInstance($this->instanceResolver, $arguments[0]);
+        if ($arguments !== []) {
+            return $this->createInstance($this->instanceResolver, $arguments);
         }
         $constructorParameters  = $this->instanceResolver->getConstructorParameters();
 
         return empty($constructorParameters) ? $this->createInstance($this->instanceResolver) : $this->resolveInstanceDependencies($this->instanceResolver, $constructorParameters);
     }
 
-    private function createDependency(string $className): Object
+    private function createDependency(string $className): object
     {
         $classNamespace        = $this->resolveClassRealName(new NamespaceFinder($className, $this->classesHolder, $this->typesAliases));
         $instanceResolver      = new InstanceResolver($classNamespace);
@@ -59,13 +59,13 @@ class InstanceFactory
      *
      * @return object
      */
-    private function resolveInstanceDependencies(InstanceResolver $instanceResolver, array $constructorParameters): Object
+    private function resolveInstanceDependencies(InstanceResolver $instanceResolver, array $constructorParameters): object
     {
         foreach ($constructorParameters as $value) {
             $dependencies[] = $this->createDependency($value);
         }
 
-        return $this->createInstance($instanceResolver, $dependencies);
+        return $this->createInstance($instanceResolver, $dependencie ?? []);
     }
 
     /**
@@ -73,7 +73,7 @@ class InstanceFactory
      *
      * @return object
      */
-    private function createInstance(InstanceResolver $instanceResolver, array $arguments = []): Object
+    private function createInstance(InstanceResolver $instanceResolver, array $arguments = []): object
     {
         return $instanceResolver->createClassInstance($arguments);
     }
