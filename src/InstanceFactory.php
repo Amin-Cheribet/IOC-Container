@@ -5,15 +5,15 @@ namespace IOC;
 use IOC\ClassFinder\NamespaceFinder;
 use IOC\ClassFinder\NamespaceFinderInterface;
 use IOC\InstanceResolver\InstanceResolver as InstanceResolver;
-use IOC\Holders\RegisteryHolder as RegisteryHolder;
+use IOC\Holders\RegistryHolder as RegistryHolder;
 
 class InstanceFactory
 {
     public InstanceResolver $instanceResolver;
-    private RegisteryHolder $classesHolder;
-    private RegisteryHolder $typesAliases;
+    private RegistryHolder $classesHolder;
+    private RegistryHolder $typesAliases;
 
-    public function __construct(string $className, RegisteryHolder $classesHolder, RegisteryHolder $typesAliases)
+    public function __construct(string $className, RegistryHolder $classesHolder, RegistryHolder $typesAliases)
     {
         $this->classesHolder = $classesHolder;
         $this->typesAliases = $typesAliases;
@@ -27,20 +27,20 @@ class InstanceFactory
      * if it's arguments are valide classes
      *
      */
-    public function create(...$arguments): object
+    public function create(mixed ...$arguments): object
     {
         if ($arguments !== []) {
             return $this->createInstance($this->instanceResolver, $arguments);
         }
-        $constructorParameters  = $this->instanceResolver->getConstructorParameters();
+        $constructorParameters = $this->instanceResolver->getConstructorParameters();
 
         return empty($constructorParameters) ? $this->createInstance($this->instanceResolver) : $this->resolveInstanceDependencies($this->instanceResolver, $constructorParameters);
     }
 
     private function createDependency(string $className): object
     {
-        $classNamespace        = $this->resolveClassRealName(new NamespaceFinder($className, $this->classesHolder, $this->typesAliases));
-        $instanceResolver      = new InstanceResolver($classNamespace);
+        $classNamespace = $this->resolveClassRealName(new NamespaceFinder($className, $this->classesHolder, $this->typesAliases));
+        $instanceResolver = new InstanceResolver($classNamespace);
         $constructorParameters = $instanceResolver->getConstructorParameters();
 
         return empty($constructorParameters) ? $this->createInstance($instanceResolver) : $this->resolveInstanceDependencies($instanceResolver, $constructorParameters);
@@ -61,11 +61,13 @@ class InstanceFactory
      */
     private function resolveInstanceDependencies(InstanceResolver $instanceResolver, array $constructorParameters): object
     {
+        $dependencies = [];
+
         foreach ($constructorParameters as $value) {
             $dependencies[] = $this->createDependency($value);
         }
 
-        return $this->createInstance($instanceResolver, $dependencie ?? []);
+        return $this->createInstance($instanceResolver, $dependencies);
     }
 
     /**

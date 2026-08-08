@@ -2,13 +2,13 @@
 
 namespace IOC\ClassFinder;
 
-use IOC\Holders\RegisteryHolder as RegisteryHolder;
+use IOC\Holders\RegistryHolder as RegistryHolder;
 
 class TypeFinder implements FinderInterface
 {
-    private RegisteryHolder $holder;
+    private RegistryHolder $holder;
 
-    public function __construct(RegisteryHolder $holder)
+    public function __construct(RegistryHolder $holder)
     {
         $this->holder = $holder;
     }
