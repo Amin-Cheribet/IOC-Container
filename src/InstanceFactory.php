@@ -10,13 +10,12 @@ use IOC\Holders\RegistryHolder as RegistryHolder;
 class InstanceFactory
 {
     public InstanceResolver $instanceResolver;
-    private RegistryHolder $classesHolder;
-    private RegistryHolder $typesAliases;
 
-    public function __construct(string $className, RegistryHolder $classesHolder, RegistryHolder $typesAliases)
-    {
-        $this->classesHolder = $classesHolder;
-        $this->typesAliases = $typesAliases;
+    public function __construct(
+        string $className,
+        private readonly RegistryHolder $classesHolder,
+        private readonly RegistryHolder $typesAliases,
+    ) {
         $classNamespace = $this->resolveClassRealName(new NamespaceFinder($className, $this->classesHolder, $this->typesAliases));
         $this->instanceResolver = new InstanceResolver($classNamespace);
     }
