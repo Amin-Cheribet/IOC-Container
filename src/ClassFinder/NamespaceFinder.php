@@ -2,15 +2,15 @@
 
 namespace IOC\ClassFinder;
 
-use IOC\Holders\RegisteryHolder as RegisteryHolder;
+use IOC\Holders\RegistryHolder as RegistryHolder;
 
 class NamespaceFinder implements NamespaceFinderInterface
 {
     private string $className;
-    private RegisteryHolder $classesHolder;
-    private RegisteryHolder $typesHolder;
+    private RegistryHolder $classesHolder;
+    private RegistryHolder $typesHolder;
 
-    public function __construct(string $className, RegisteryHolder $classesHolder, RegisteryHolder $typesHolder)
+    public function __construct(string $className, RegistryHolder $classesHolder, RegistryHolder $typesHolder)
     {
         $this->className = $className;
         $this->classesHolder = $classesHolder;

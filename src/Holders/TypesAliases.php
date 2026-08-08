@@ -2,7 +2,7 @@
 
 namespace IOC\Holders;
 
-class TypesAliases implements RegisteryHolder
+class TypesAliases implements RegistryHolder
 {
     private array $interfaces = [];
 

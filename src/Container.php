@@ -16,13 +16,13 @@ class Container
     public function __construct()
     {
         $this->classesAliases = new ClassesAliases();
-        $this->typesAliases   = new TypesAliases();
-        $this->instances      = new InstancesHolder();
+        $this->typesAliases = new TypesAliases();
+        $this->instances = new InstancesHolder();
     }
 
-    public function build(string $className, ...$arguments): object
+    public function build(string $className, mixed ...$arguments): object
     {
-        $this->factory     = new InstanceFactory($className, $this->classesAliases, $this->typesAliases);
+        $this->factory = new InstanceFactory($className, $this->classesAliases, $this->typesAliases);
         $instanceShortName = (isset($this->classesAliases->$className)) ? $className : $this->factory->instanceResolver->getShortName();
 
         return $this->instances->{$instanceShortName} = $this->factory->create(...$arguments);
