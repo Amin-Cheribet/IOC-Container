@@ -6,16 +6,11 @@ use IOC\Holders\RegistryHolder as RegistryHolder;
 
 class NamespaceFinder implements NamespaceFinderInterface
 {
-    private string $className;
-    private RegistryHolder $classesHolder;
-    private RegistryHolder $typesHolder;
-
-    public function __construct(string $className, RegistryHolder $classesHolder, RegistryHolder $typesHolder)
-    {
-        $this->className = $className;
-        $this->classesHolder = $classesHolder;
-        $this->typesHolder = $typesHolder;
-    }
+    public function __construct(
+        private readonly string $className,
+        private readonly RegistryHolder $classesHolder,
+        private readonly RegistryHolder $typesHolder,
+    ) {}
 
     public function getRealClassName(): string
     {
